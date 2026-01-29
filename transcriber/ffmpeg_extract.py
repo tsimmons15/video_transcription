@@ -12,7 +12,7 @@ class FfmpegAudioConfig:
     channels: int = 1
     codec: str = "pcm_s16le"  # 16-bit PCM WAV
     overwrite: bool = True
-    normalize: str = "loudnorm"
+    normalize: str = "highpass=f=80,lowpass=f=8000,loudnorm=I=-16:LRA=11:TP=-1.5" # Preset parameters
 
 
 class FfmpegNotFoundError(RuntimeError):
@@ -24,10 +24,6 @@ class FfmpegDecodeError(RuntimeError):
 
 
 def require_ffmpeg(ffmpeg_path: str | None = None) -> str:
-    """
-    Returns the resolved ffmpeg executable path.
-    Raises if ffmpeg can't be found.
-    """
     exe = ffmpeg_path or shutil.which("ffmpeg")
     if not exe:
         raise FfmpegNotFoundError(
@@ -44,10 +40,6 @@ def extract_wav(
     config: FfmpegAudioConfig = FfmpegAudioConfig(),
     ffmpeg_path: str | None = None,
 ) -> Path:
-    """
-    Extracts/decodes input_media to a 16kHz mono PCM WAV at output_wav.
-    This is what Whisper expects and makes downstream transcription stable.
-    """
     if not input_media.exists() or not input_media.is_file():
         raise FileNotFoundError(f"Input media not found: {input_media}")
 
@@ -68,6 +60,7 @@ def extract_wav(
         "-vn",  # no video
         "-ac", str(config.channels),
         "-ar", str(config.sample_rate),
+        "-af", str(config.normalize),
         "-c:a", config.codec,
         str(output_wav),
     ]

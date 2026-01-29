@@ -44,29 +44,20 @@ class WhisperTranscriber:
         if "vtt" in output_formats:
             self._write_vtt(result, output_dir / f"{base_name}.vtt")
 
+    def _get_writer(self, writer_type, output_dir):
+        return get_writer(writer_type, output_dir)
+
     def _write_txt(self, result, path: Path):
-        """
-        Write plain text transcription using Whisper writer API.
-        """
-        writer = _get_writer("txt", path.parent)
+        writer = self._get_writer("txt", path.parent)
         writer(result, path.stem)
 
 
     def _write_srt(self, result, path: Path):
-        """
-        Write SRT subtitles using Whisper writer API.
-        """
-        writer = _get_writer("srt", path.parent)
+        writer = self._get_writer("srt", path.parent)
         writer(result, path.stem)
 
 
     def _write_vtt(self, result, path: Path):
-        """
-        Write VTT subtitles using Whisper writer API.
-        """
-        writer = _get_writer("vtt", path.parent)
+        writer = self._get_writer("vtt", path.parent)
         writer(result, path.stem)
-
-    def _get_writer(writer_type, output_dir):
-        return get_writer("srt", output_dir)
         
