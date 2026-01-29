@@ -12,6 +12,7 @@ class FfmpegAudioConfig:
     channels: int = 1
     codec: str = "pcm_s16le"  # 16-bit PCM WAV
     overwrite: bool = True
+    normalize: str = "loudnorm"
 
 
 class FfmpegNotFoundError(RuntimeError):

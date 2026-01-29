@@ -1,4 +1,5 @@
 import whisper
+from whisper.utils import get_writer
 from pathlib import Path
 from .config import DEFAULT_MODEL, DEFAULT_LANGUAGE, DEFAULT_OUTPUT_FORMATS
 
@@ -44,15 +45,28 @@ class WhisperTranscriber:
             self._write_vtt(result, output_dir / f"{base_name}.vtt")
 
     def _write_txt(self, result, path: Path):
-        with path.open("w", encoding="utf-8") as f:
-            f.write(result["text"].strip())
+        """
+        Write plain text transcription using Whisper writer API.
+        """
+        writer = _get_writer("txt", path.parent)
+        writer(result, path.stem)
+
 
     def _write_srt(self, result, path: Path):
-        import whisper.utils as wu
-        with path.open("w", encoding="utf-8") as f:
-            wu.write_srt(result["segments"], file=f)
+        """
+        Write SRT subtitles using Whisper writer API.
+        """
+        writer = _get_writer("srt", path.parent)
+        writer(result, path.stem)
+
 
     def _write_vtt(self, result, path: Path):
-        import whisper.utils as wu
-        with path.open("w", encoding="utf-8") as f:
-            wu.write_vtt(result["segments"], file=f)
+        """
+        Write VTT subtitles using Whisper writer API.
+        """
+        writer = _get_writer("vtt", path.parent)
+        writer(result, path.stem)
+
+    def _get_writer(writer_type, output_dir):
+        return get_writer("srt", output_dir)
+        
