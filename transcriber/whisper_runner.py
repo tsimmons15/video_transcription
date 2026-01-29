@@ -21,9 +21,7 @@ class WhisperTranscriber:
     ):
         print("Transcription started.")
         output_formats = output_formats or DEFAULT_OUTPUT_FORMATS
-        print(f"Output formats: {output_formats}")
         output_dir.mkdir(parents=True, exist_ok=True)
-        print("Created output dir (if not exists)")
 
         print("Calling transcribe...")
         result = self.model.transcribe(

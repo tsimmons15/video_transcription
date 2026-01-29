@@ -65,8 +65,8 @@ def main():
             wav_path = interview_audio / filename
             extract_wav(media_file, wav_path)
             result = get_media_file(interview_audio, filename)
-            print(f"The results: {result}")
             media_file = result[0]
+            
         print(f"Transcribing: {media_file.name}")
         transcriber.transcribe(
             media_path=media_file,

@@ -17,7 +17,6 @@ def discover_media_files(directory: Path):
     ]
 
 def get_media_file(directory: Path, filename: str):
-    print(f"Get media files for {directory}\{filename}")
     #for f in directory.iterdir():
     #    print(f"File: '{f.name}'\nComparison filename: '{filename}'\nIs file? {f.is_file()}\nFile: {f}\nEquality? {f.name.lower() == filename.lower()}")
     return [
