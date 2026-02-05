@@ -23,7 +23,7 @@ class FfmpegDecodeError(RuntimeError):
     pass
 
 
-def require_ffmpeg(ffmpeg_path: str | None = None) -> str:
+def require_ffmpeg(ffmpeg_path = None):
     exe = ffmpeg_path or shutil.which("ffmpeg")
     if not exe:
         raise FfmpegNotFoundError(
@@ -34,12 +34,12 @@ def require_ffmpeg(ffmpeg_path: str | None = None) -> str:
 
 
 def extract_wav(
-    input_media: Path,
-    output_wav: Path,
+    input_media,
+    output_wav,
     *,
-    config: FfmpegAudioConfig = FfmpegAudioConfig(),
-    ffmpeg_path: str | None = None,
-) -> Path:
+    config = FfmpegAudioConfig(),
+    ffmpeg_path = None,
+):
     if not input_media.exists() or not input_media.is_file():
         raise FileNotFoundError(f"Input media not found: {input_media}")
 

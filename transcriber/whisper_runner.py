@@ -1,7 +1,9 @@
 import whisper
 from whisper.utils import get_writer
 from pathlib import Path
-from .config import DEFAULT_MODEL, DEFAULT_LANGUAGE, DEFAULT_OUTPUT_FORMATS
+from util.config import DEFAULT_MODEL, DEFAULT_LANGUAGE, DEFAULT_OUTPUT_FORMATS
+
+from util.logging.logger import Logging
 
 
 class WhisperTranscriber:
@@ -10,6 +12,7 @@ class WhisperTranscriber:
         model_name: str = DEFAULT_MODEL,
         language: str = DEFAULT_LANGUAGE
     ):
+        self.logger = Logging.get("whisper")
         self.model = whisper.load_model(model_name)
         self.language = language
 
@@ -20,20 +23,20 @@ class WhisperTranscriber:
         output_formats=None,
         use_verbose=False
     ):
-        print("Transcription started.")
+        self.logger.info("Transcription started.")
         output_formats = output_formats or DEFAULT_OUTPUT_FORMATS
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        print("Calling transcribe...")
+        self.logger.info("Calling transcribe...")
         result = self.model.transcribe(
             str(media_path),
             language=self.language,
             verbose=use_verbose
         )
-        print("Transcribed")
+        self.logger.info("Transcribed")
 
         base_name = media_path.stem
-        print(f"The file base name: {base_name}")
+        self.logger.info(f"File base name: {base_name}")
 
         if "txt" in output_formats:
             self._write_txt(result, output_dir / f"{base_name}.txt")

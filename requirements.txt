@@ -1,0 +1,16 @@
+#Requirement                Developed using (if it breaks in the future)
+#openai                     2.16.0
+#openai-whisper             20250625
+#google-api-core            2.29.0
+#google-api-python-client   2.188.0
+#google-auth                2.48.0
+#google-auth-httplib2       0.3.0
+#google-auth-oauthlib       1.2.4
+#playwright                 1.58.0
+openai                  
+openai-whisper          
+google-api-core         
+google-api-python-client
+google-auth             
+google-auth-httplib2    
+google-auth-oauthlib
