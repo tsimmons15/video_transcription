@@ -22,8 +22,8 @@ set LOG_DIR=/path/to/your/log/directory
 My recommended project directory:
 ```
 root/
-\- data/
-   \- videos/
-   \- transcripts/
-   \- questions/
+- data/
+   - videos/
+   - transcripts/
+   - questions/
 ```
